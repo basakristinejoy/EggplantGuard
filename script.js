@@ -1,7 +1,6 @@
 // EggplantGuard: Teachable Machine image classifier
 // STEP: Replace the placeholder below with your actual Teachable Machine model URL.
-const MODEL_URL =
-https://teachablemachine.withgoogle.com/models/_viIsIFq8/
+const MODEL_URL = https://teachablemachine.withgoogle.com/models/_viIsIFq8/
 
 const imageInput = document.getElementById("imageInput");
 const imagePreview = document.getElementById("imagePreview");
