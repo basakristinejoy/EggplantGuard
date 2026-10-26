@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# Streamlit
+.streamlit/
+*.log
+
+# Local/generated model files
+model.json
+metadata.json
+weights.bin
+*.bin
+*.h5
+*.keras
+
+# Editor files
+.vscode/
+.DS_Store
+Thumbs.db
