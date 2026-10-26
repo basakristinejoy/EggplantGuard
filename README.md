@@ -1,6 +1,6 @@
 # EggplantGuard
 
-EggplantGuard is a browser-based educational prototype for classifying eggplant leaf conditions and fruit quality with a Google Teachable Machine image model.
+EggplantGuard is an educational prototype for classifying eggplant leaf conditions and fruit quality with a Google Teachable Machine image model. It includes a browser app and a Streamlit app; both currently use the same hosted model.
 
 ## Files
 - `index.html` — page structure and library imports
@@ -22,15 +22,14 @@ EggplantGuard is a browser-based educational prototype for classifying eggplant 
 ## 2. Connect the model
 Open `script.js` and replace:
 ```js
-const MODEL_URL = "PASTE_YOUR_TEACHABLE_MACHINE_MODEL_URL_HERE/";
+const MODEL_URL = "https://teachablemachine.withgoogle.com/models/jq8kSVI_-/";
 ```
-with your real model URL, preserving the trailing slash, for example:
+with your model URL, preserving the trailing slash. To keep both app versions consistent, update `MODEL_URL` in `app.py` to the same URL.
 ```js
 const MODEL_URL = "https://teachablemachine.withgoogle.com/models/YOUR_REAL_MODEL_ID/";
 ```
-The example above is only a format example. Use your own URL.
 
-Make sure your model's class names match the four labels exactly. If the labels differ, update the labels in `guidance` in `script.js`.
+Make sure your model's class names match the four labels exactly. If they differ, update `getAdvice` in `script.js` and `GUIDANCE` in `app.py`.
 
 ## 3. Run locally
 - Open the folder in Visual Studio Code.
@@ -46,7 +45,13 @@ Make sure your model's class names match the four labels exactly. If the labels 
 5. Wait for the published Pages URL and open it.
 6. Test both image upload and camera access. Use the HTTPS published URL for camera permission.
 
+## 5. Run the Streamlit app
+- Install dependencies with `pip install -r requirements.txt`.
+- Run `streamlit run app.py` from the repository root.
+- The Streamlit app loads the hosted model at startup; an internet connection is required.
+
 ## Important notes
-- The model URL is not included because it must come from your own trained model.
+- The browser app and Streamlit app are configured to use the same hosted model URL.
+- `model.json`, `metadata.json`, and `weights.bin` are included in the repository; the apps currently load the hosted model rather than these local files.
 - This prototype provides educational screening, not a certified plant diagnosis.
 - Do not report accuracy figures such as 88.5% as measured results unless you have evaluated your model on a real held-out test set.

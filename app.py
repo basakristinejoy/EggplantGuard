@@ -1,8 +1,7 @@
 """
 EggplantGuard — Streamlit Community Cloud entrypoint
 -----------------------------------------------------
-Loads the Teachable Machine model from its hosted URL at runtime
-(no model files are committed to the repository).
+Loads the Teachable Machine model from its hosted URL at runtime.
 """
 
 import json
@@ -15,7 +14,7 @@ import streamlit as st
 from PIL import Image
 
 # ── Model URL ────────────────────────────────────────────────────────────────
-MODEL_URL = "https://teachablemachine.withgoogle.com/models/_viIsIFq8/"
+MODEL_URL = "https://teachablemachine.withgoogle.com/models/jq8kSVI_-/"
 
 # ── Farming guidance for each class ──────────────────────────────────────────
 GUIDANCE = {
@@ -103,9 +102,15 @@ def load_model():
 
 # ── Image helpers ─────────────────────────────────────────────────────────────
 def preprocess(image: Image.Image, image_size: int) -> np.ndarray:
-    """Resize to model input size, convert to RGB, normalise to [0, 1]."""
-    img = image.convert("RGB").resize((image_size, image_size))
-    arr = np.array(img, dtype=np.float32) / 255.0
+    """Center-crop and normalize like Teachable Machine's browser image pipeline."""
+    img = image.convert("RGB")
+    width, height = img.size
+    crop_size = min(width, height)
+    left = (width - crop_size) // 2
+    top = (height - crop_size) // 2
+    img = img.crop((left, top, left + crop_size, top + crop_size))
+    img = img.resize((image_size, image_size), Image.Resampling.BILINEAR)
+    arr = np.asarray(img, dtype=np.float32) / 127.0 - 1.0
     return np.expand_dims(arr, axis=0)  # shape: (1, H, W, 3)
 
 
@@ -264,4 +269,3 @@ for col, (icon, name, desc) in zip(class_cols, CLASSES):
 
 st.divider()
 st.caption("**EggplantGuard** · AI-assisted crop screening for learning and demonstration")
-
